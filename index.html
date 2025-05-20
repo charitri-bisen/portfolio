@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Charitri Bisen | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset and base */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 60px; /* Navbar height offset */
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0a192f;
+      color: #ccd6f6;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #112240;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1.5rem;
+      z-index: 9999;
+      user-select: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+    nav h1 {
+      color: #64ffda;
+      font-weight: 600;
+      font-size: 1.4rem;
+      cursor: default;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      color: #64ffda;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+    .menu-toggle.active {
+      transform: rotate(90deg);
+      color: #a0f0da;
+    }
+    ul.nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    ul.nav-links li a {
+      color: #64ffda;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    ul.nav-links li a:hover,
+    ul.nav-links li a:focus {
+      color: #a0f0da;
+      text-shadow: 0 0 8px #a0f0da;
+      outline: none;
+    }
+
+    /* Sections */
+    header, section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    header.visible, section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    header {
+      padding-top: 80px; /* extra top padding for header */
+      text-align: center;
+    }
+    header img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 3px solid #64ffda;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      user-select: none;
+      transition: transform 0.5s ease;
+    }
+    header img:hover,
+    header img:focus {
+      transform: scale(1.1);
+      outline: none;
+    }
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      color: #8892b0;
+      font-size: 1.1rem;
+    }
+    .resume-btn {
+      display: inline-block;
+      margin-top: 1.2rem;
+      background: #64ffda;
+      color: #0a192f;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      user-select: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .resume-btn:hover,
+    .resume-btn:focus {
+      background: #52e0c4;
+      box-shadow: 0 0 12px #52e0c4;
+      transform: scale(1.05);
+      outline: none;
+    }
+
+    /* Section Titles */
+    h2 {
+      color: #64ffda;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #233554;
+      padding-bottom: 0.3rem;
+      user-select: none;
+    }
+
+    /* About Section */
+    .about-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .about-wrapper img {
+      width: 260px;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 12px #64ffda;
+      user-select: none;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .about-wrapper img:hover,
+    .about-wrapper img:focus {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px #64ffda;
+      outline: none;
+    }
+    .about-text {
+      flex: 1 1 260px;
+      min-width: 260px;
+      font-size: 1rem;
+      color: #a8b2d1;
+    }
+
+    /* Lists */
+    ul.skill-list, ul.project-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul.skill-list li, ul.project-list li {
+      background: #112240;
+      margin-bottom: 0.5rem;
+      padding: 0.6rem 1rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      user-select: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    ul.skill-list li:hover,
+    ul.project-list li:hover {
+      background: #233554;
+      box-shadow: 0 0 8px #64ffda;
+    }
+
+    /* Contact */
+    #contact p a {
+      color: #64ffda;
+      text-decoration: none;
+      user-select: text;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+    #contact p a:hover,
+    #contact p a:focus {
+      text-decoration: underline;
+      color: #a0f0da;
+      text-shadow: 0 0 8px #a0f0da;
+      outline: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: #112240;
+      color: #8892b0;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    /* Responsive Navbar */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      ul.nav-links {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: #112240;
+        flex-direction: column;
+        padding: 1rem 1.5rem;
+        gap: 1rem;
+        display: none;
+      }
+      ul.nav-links.show {
+        display: flex;
+      }
+      ul.nav-links li {
+        width: 100%;
+      }
+      ul.nav-links li a {
+        font-size: 1.1rem;
+        display: block;
+        width: 100%;
+      }
+    }
+
+    /* Smaller screens adjustments */
+    @media (max-width: 480px) {
+      .about-wrapper {
+        flex-direction: column;
+      }
+      .about-wrapper img {
+        width: 100%;
+        max-width: 260px;
+        height: auto;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>Charitri</h1>
+    <div class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" role="button" tabindex="0">☰</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about" class="nav-link" tabindex="0">About</a></li>
+      <li><a href="#skills" class="nav-link" tabindex="0">Skills</a></li>
+      <li><a href="#experience" class="nav-link" tabindex="0">Experience</a></li>
+      <li><a href="#projects" class="nav-link" tabindex="0">Projects</a></li>
+      <li><a href="#education" class="nav-link" tabindex="0">Education</a></li>
+      <li><a href="#contact" class="nav-link" tabindex="0">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header id="home" class="hidden">
+    <img src="charitri.jpg" alt="Photo of Charitri Bisen" />
+    <h1>Hello, I'm Charitri Bisen</h1>
+    <p>BCCA Graduate | Web Developer | Tech Enthusiast</p>
+    <a href="https://drive.google.com/file/d/18xorB_cT_jHGIFECw6zYrhNmZ9ilN_ez/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="resume-btn">View Resume</a>
+  </header>
+
+  <section id="about" class="hidden">
+    <h2>About Me</h2>
+    <div class="about-wrapper">
+      <img src="programmer.png" alt="Illustration of programmer" />
+      <div class="about-text">
+        <p>
+          I recently completed my BCCA from L.A.D. College, Nagpur. I am passionate about web
+          development and digital technology. I completed a 2-month web development internship,
+          where I worked on a full-fledged website project named EDUCA. I enjoy solving problems and
+          continuously learning new technologies.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="hidden">
+    <h2>Skills</h2>
+    <ul class="skill-list">
+      <li>HTML5</li>
+      <li>CSS3</li>
+      <li>JavaScript</li>
+      <li>PHP</li>
+      <li>MySQL</li>
+    </ul>
+  </section>
+
+  <section id="experience" class="hidden">
+    <h2>Experience</h2>
+    <p><strong>Web Development Intern</strong> – 2 Months (Unpaid)</p>
+    <p>
+      Gained hands-on experience by working on real-world web projects and learning frontend and
+      backend technologies.
+    </p>
+  </section>
+
+  <section id="projects" class="hidden">
+    <h2>Projects</h2>
+    <ul class="project-list">
+      <li>
+        <strong>EDUCA – Online Courses Website</strong><br />
+        Designed and developed a responsive online course platform that showcases courses, events,
+        teachers, and student features. Tech stack includes HTML, CSS, JS, PHP, and MySQL.<br />
+        <a href="https://github.com/charitri-bisen" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+      </li>
+    </ul>
+  </section>
+
+  <section id="education" class="hidden">
+    <h2>Education</h2>
+    <p><strong>BCCA</strong> – L.A.D. College, Shankar Nagar, Nagpur</p>
+    <p>Graduated in 2025 with a focus on computer applications and digital technologies.</p>
+  </section>
+
+  <section id="contact" class="hidden">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:charitrib@gmail.com">charitrib@gmail.com</a></p>
+    <p>Phone: 7666566781</p>
+    <p>Location: Nagpur, India</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Charitri Bisen. Built with Love and Code.</p>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const navLinkItems = document.querySelectorAll('.nav-link');
+
+    // Toggle mobile menu visibility with animation class
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+      menuToggle.classList.toggle('active');
+    });
+
+    menuToggle.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        navLinks.classList.toggle('show');
+        menuToggle.classList.toggle('active');
+      }
+    });
+
+    navLinkItems.forEach(link => {
+      link.addEventListener('click', () => {
+        if (navLinks.classList.contains('show')) {
+          navLinks.classList.remove('show');
+          menuToggle.classList.remove('active');
+        }
+      });
+    });
+
+    // Scroll fade-in animation
+    const observerOptions = {
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('header, section').forEach(section => {
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>
